@@ -1,0 +1,31 @@
+# 讲解要点：
+# 1. server.port 配置内置 Tomcat 端口。
+# 2. spring.datasource 配置数据源连接，url 中 serverTimezone=Asia/Shanghai 指定时区，避免时间偏移。
+# 3. mybatis-plus.configuration.log-impl 打印 SQL 到控制台，演示时用来观察实际执行的语句。
+# 4. global-config.db-config 里的 logic-delete-* 是逻辑删除的全局默认配置（与 @TableLogic 配合）。
+server:
+  port: 8080
+
+spring:
+  application:
+    name: demo_db
+  datasource:
+    url: jdbc:mysql://localhost:3306/demo_db?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: root
+    password:          # TODO: 改成你自己的 MySQL 密码
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis-plus:
+  configuration:
+    # 控制台打印 SQL 日志，便于演示时观察实际执行的 SQL 语句
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      # 逻辑删除字段名（与实体类里的 deleted 对应）
+      logic-delete-field: deleted
+      # 已删除的值
+      logic-delete-value: 1
+      # 未删除的值
+      logic-not-delete-value: 0
+      # 主键自增
+      id-type: auto
